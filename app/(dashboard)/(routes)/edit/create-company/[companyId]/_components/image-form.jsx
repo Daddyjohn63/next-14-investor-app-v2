@@ -18,6 +18,9 @@ const formSchema = z.object({
 
 export const Imageform = ({ initialData, companyId }) => {
   const [isEditing, setIsEditing] = useState(false);
+  //at this stage we have no image url when we first create a company.
+  //however, once an image is loaded we will have an image url called imageUrl
+  console.log('[from ImageForm]', initialData, companyId);
 
   const toggleEdit = () => setIsEditing(current => !current);
 
@@ -69,6 +72,7 @@ export const Imageform = ({ initialData, companyId }) => {
         <div>
           <FileUpload
             endpoint="companyImage"
+            //onSubmit, we are passing the url we receive to our onSubmit function where axios takes it and through our api saves it to the database.
             onChange={url => {
               if (url) {
                 onSubmit({ imageUrl: url });

@@ -21,7 +21,7 @@ export async function PATCH(req, { params }) {
         ...values
       }
     });
-    console.log('[COMPANY FROM api route]', company);
+    //('[COMPANY FROM api route]', company);
 
     return NextResponse.json(company);
   } catch (error) {
