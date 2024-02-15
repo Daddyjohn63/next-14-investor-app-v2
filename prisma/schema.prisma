@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// // This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+model Company {
+  id          String  @id @default(uuid())
+  userId      String
+  companyname String  @db.Text
+  description String? @db.Text
+  imageUrl    String? @db.Text
+  isPublished Boolean @default(false)
+
+  sectorId String?
+  sector   Sector? @relation(fields: [sectorId], references: [id])
+
+  attachments Attachment[]
+
+  managementTeam ManagementTeam?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sectorId])
+}
+
+model ManagementTeam {
+  id             String  @id @default(uuid())
+  name           String
+  jobTitle       String?
+  experience     String?
+  qualifications String?
+  contactInfo    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  company   Company  @relation(fields: [companyId], references: [id])
+  companyId String   @unique
+}
+
+model Sector {
+  id      String    @id @default(uuid())
+  name    String    @unique
+  company Company[]
+}
+
+model Attachment {
+  id   String @id @default(uuid())
+  name String
+  url  String @db.Text
+
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId])
+}
