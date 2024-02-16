@@ -8,6 +8,7 @@ import { redirect } from 'next/navigation';
 import { Titleform } from './_components/title-form';
 import { Descriptionform } from './_components/description-form';
 import { Imageform } from './_components/image-form';
+import { Sectorform } from './_components/sector-form';
 
 const CompanyIdPage = async ({ params }) => {
   const { userId } = auth();
@@ -21,6 +22,14 @@ const CompanyIdPage = async ({ params }) => {
       id: params.companyId
     }
   });
+
+  const sectors = await db.sector.findMany({
+    orderBy: {
+      name: 'asc'
+    }
+  });
+
+  //console.log(sectors);
 
   if (!company) {
     return redirect('/');
@@ -51,6 +60,15 @@ const CompanyIdPage = async ({ params }) => {
           <Titleform initialData={company} companyId={company.id} />
           <Descriptionform initialData={company} companyId={company.id} />
           <Imageform initialData={company} companyId={company.id} />
+          <Sectorform
+            initialData={company}
+            companyId={company.id}
+            //do not understand this..why we map over?
+            options={sectors.map(sector => ({
+              label: sector.name,
+              value: sector.id
+            }))}
+          />
         </div>
       </div>
     </div>

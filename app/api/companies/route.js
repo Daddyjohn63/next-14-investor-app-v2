@@ -32,7 +32,7 @@ export async function POST(req) {
     // }
     return NextResponse.json(company);
   } catch (error) {
-    console.log('[COMPANIES]', error);
+    //console.log('[COMPANIES]', error);
     return new NextResponse('Internal Error', { status: 500 });
   }
 }

@@ -44,7 +44,7 @@ model ManagementTeam {
   jobTitle       String?
   experience     String?
   qualifications String?
-  contactInfo    String?
+  contactInfo    String? //could be a table on its own. Probably a one to one relationship.
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
